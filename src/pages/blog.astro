@@ -1,6 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Nav from "@/components/nav.astro";
+import BlogNav from "@/components/blog-nav.astro";
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 
@@ -15,7 +15,7 @@ function truncateTitle(title: string, maxLength: number = 50) {
 ---
 
 <Layout title="Blog - Riasat Mahbub">
-  <Nav />
+  <BlogNav />
   <main class="min-h-screen bg-white dark:bg-gray-900 pt-20">
     <div class="max-w-6xl mx-auto px-6 py-12">
       <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-8">Blog</h1>
