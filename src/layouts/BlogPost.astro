@@ -1,16 +1,15 @@
+
 ---
 import Layout from "@/layouts/Layout.astro";
 import BlogNav from "@/components/blog-nav.astro";
+// src/layouts/BlogPost.astro
+import type { CollectionEntry } from 'astro:content';
 
-interface Props {
-  title: string;
-  description: string;
-  difficulty: 'Easy' | 'Medium' | 'Hard';
-  tags: string[];
-  publishDate: Date;
-}
+// This automatically syncs Props with your Zod schema
+type Props = CollectionEntry<'blog'>['data'];
 
 const { title, description, difficulty, tags, publishDate } = Astro.props;
+
 
 const difficultyColors = {
   Easy: 'bg-green-500 text-white',
