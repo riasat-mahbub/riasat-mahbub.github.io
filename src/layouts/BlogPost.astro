@@ -13,42 +13,42 @@ interface Props {
 const { title, description, difficulty, tags, publishDate } = Astro.props;
 
 const difficultyColors = {
-  Easy: 'text-green-500 bg-green-100 dark:bg-green-900',
-  Medium: 'text-yellow-500 bg-yellow-100 dark:bg-yellow-900', 
-  Hard: 'text-red-500 bg-red-100 dark:bg-red-900'
+  Easy: 'bg-green-500 text-white',
+  Medium: 'bg-yellow-500 text-white', 
+  Hard: 'bg-red-500 text-white'
 };
 ---
 
 <Layout title={`${title} - Blog`}>
   <BlogNav />
-  <main class="min-h-screen bg-white dark:bg-gray-900 pt-20">
-    <div class="max-w-4xl mx-auto px-6 py-12">
+  <main class="min-h-screen bg-[var(--background)] text-[var(--white)] pt-20">
+    <div class="max-w-5xl mx-auto px-6 py-12">
       <div class="mb-8">
-        <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">{title}</h1>
-        <p class="text-lg text-gray-600 dark:text-gray-300 mb-4">{description}</p>
+        <h1 class="text-4xl md:text-5xl font-medium text-[var(--white)] mb-4">{title}</h1>
+        <p class="text-lg text-[var(--white-icon)] mb-4">{description}</p>
         
         <div class="flex flex-wrap gap-2 mb-4">
           <span class={`px-3 py-1 rounded-full text-sm font-medium ${difficultyColors[difficulty]}`}>
             {difficulty}
           </span>
           {tags.map(tag => (
-            <span class="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm">
+            <span class="px-3 py-1 bg-[var(--white-icon-tr)] text-[var(--white-icon)] rounded-full text-sm">
               {tag}
             </span>
           ))}
         </div>
         
-        <p class="text-sm text-gray-500 dark:text-gray-400">
+        <p class="text-sm text-[var(--white-icon)]">
           {publishDate.toLocaleDateString()}
         </p>
       </div>
       
-      <article class="prose prose-lg dark:prose-invert max-w-none">
+      <div class="prose prose-lg max-w-none">
         <slot />
-      </article>
+      </div>
       
-      <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
-        <a href="/blog" class="text-purple-600 dark:text-purple-400 hover:underline">
+      <div class="mt-12 pt-8 border-t border-[var(--white-icon-tr)]">
+        <a href="/blog" class="text-purple-400 hover:text-purple-300 hover:underline transition-colors">
           ← Back to Blog
         </a>
       </div>
@@ -56,16 +56,75 @@ const difficultyColors = {
   </main>
 </Layout>
 
-<style>
+<style is:global>
+  .prose {
+    color: var(--white-icon);
+    line-height: 1.7;
+  }
+  
+  .prose h2 {
+    color: var(--white);
+    font-size: 1.875rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .prose h3 {
+    color: var(--white);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .prose p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+  }
+  
+  .prose ul, .prose ol {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+  
+  .prose li {
+    margin-bottom: 0.5rem;
+  }
+  
   .prose code {
-    @apply bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm;
+    background-color: var(--white-icon-tr);
+    color: var(--white);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-family: 'Courier New', monospace;
   }
   
   .prose pre {
-    @apply bg-gray-900 dark:bg-gray-800 rounded-lg p-4 overflow-x-auto;
+    background-color: #1a1a1a;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
   }
   
   .prose pre code {
-    @apply bg-transparent p-0 text-gray-100;
+    background-color: transparent;
+    padding: 0;
+    color: #e5e7eb;
+    font-size: 0.875rem;
+  }
+  
+  .prose strong {
+    color: var(--white);
+    font-weight: 600;
+  }
+  
+  .prose blockquote {
+    border-left: 4px solid var(--white-icon-tr);
+    padding-left: 1rem;
+    margin: 1rem 0;
+    font-style: italic;
   }
 </style>

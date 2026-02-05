@@ -3,11 +3,10 @@ title: "Best Time to Buy and Sell Stock - Array Problem"
 description: "Finding maximum profit from a single buy-sell transaction using optimized approaches"
 difficulty: "Easy"
 tags: ["Array", "Dynamic Programming", "Two Pointers"]
-publishDate: 2024-01-16
+publishDate: 2026-02-04
 ---
 
 ## Problem Statement
-
 You are given an array `prices` where `prices[i]` is the price of a given stock on the ith day. You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock. Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
 
 ## Examples
@@ -67,7 +66,7 @@ public:
 ### Second Approach
 This version uses nested loops but includes logic to "jump" the index forward. It is often faster in online judges because it avoids calling max() and updating variables on every single iteration.
 
-
+```cpp
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
@@ -94,6 +93,7 @@ public:
         return res;
     }
 };
+```
 
 1. The Floor: The outer loop waits until it finds a price lower than the current min_price.
 
