@@ -1,22 +1,11 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import Nav from "@/components/nav.astro";
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
 
-// Mock data for now since content collections aren't working
-const posts = [
-  {
-    slug: 'two-sum',
-    data: {
-      title: 'Two Sum - Array Problem',
-      description: 'Finding two numbers in an array that add up to a target sum using hash map approach',
-      difficulty: 'Easy' as const,
-      tags: ['Array', 'Hash Table', 'Two Pointers'],
-      publishDate: new Date('2024-01-15')
-    }
-  }
-];
-
-const sortedPosts = posts.sort((a, b) => 
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a: CollectionEntry<'blog'>, b: CollectionEntry<'blog'>) => 
   b.data.publishDate.getTime() - a.data.publishDate.getTime()
 );
 
