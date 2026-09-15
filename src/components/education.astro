@@ -1,79 +1,97 @@
 ---
 import { Image } from "astro:assets";
 import bracu from "../../public/bracu_alt.png";
-import dal from "../../public/dal-light.png"
+import dal from "../../public/dal-light.png";
 
 interface Education {
   degree: string;
   image: ImageMetadata;
+  logoClass: "dal" | "bracu";
   institution: string;
-  year: string;
-  description: string[];
+  date: string;
+  dateValue: string;
 }
 
-
 const educations: Education[] = [
-{
+  {
     degree: "Master of Computer Science",
     image: dal,
+    logoClass: "dal",
     institution: "Dalhousie University",
-    year: "2025",
-    description: [
-      "Collaborated across disciplines with civil engineers to integrate empirical software engineering practices into domain-specific simulation systems.",
-      "Researched local LLM agent workflows, refactoring patterns, and static analysis metrics across 482 open-source repositories.",
-      "Authored a Master's thesis evaluating the impact of code smells on simulation modeling software maintainability."
-    ],
+    date: "October 2025",
+    dateValue: "2025-10",
   },
   {
     degree: "Bachelor of Computer Science and Engineering",
     image: bracu,
+    logoClass: "bracu",
     institution: "BRAC University",
-    year: "2021",
-    description: [
-      "Established core foundation in algorithms, data structures, relational database design, and software architecture.",
-      "Sharpened algorithmic thinking and analytical problem-solving skills through competitive programming contests and coursework.",
-      "Engineered machine learning and recommendation system capstone projects using Python and statistical data pipelines."
-    ],
-  }
-
+    date: "November 2021",
+    dateValue: "2021-11",
+  },
 ];
 ---
 
-<section class="text-[var(--white)] py-16 border-[#ffffff10] border-t-2" id="education">
-  <div class="max-w-5xl mx-auto space-y-8">
-    <div class="text-center space-y-4">
-      <h2 class="text-lg text-[var(--sec)] mb-2">My background</h2>
-      <h3 class="text-4xl md:text-5xl font-medium text-[var(--white)]">
-        Education
-      </h3>
-    </div>
+<section
+  class="border-t-2 border-[var(--white-icon-tr)] px-4 py-20 text-[var(--white)] md:px-8 md:py-28"
+  id="education"
+>
+  <div class="mx-auto max-w-5xl">
+    <header class="mb-12 border-b border-[var(--white-icon-tr)] pb-6">
+      <p
+        class="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--sec)]"
+      >
+        Background
+      </p>
+      <h2 class="text-4xl font-medium tracking-tight md:text-6xl">Education</h2>
+    </header>
 
-    <div class="grid gap-8 md:gap-12">
-      {educations.map((item) => (
-        <div class="rounded-xl p-4 md:p-6 flex flex-col md:flex-row md:items-start gap-4 md:gap-6 border border-[var(--white-icon-tr)]  bg-[#14141450] hover:bg-[#1414149c] transition duration-300">
-          <div class={`w-16 h-16 md:w-28 md:h-28 shrink-0 mb-4 md:mb-0 rounded-lg flex items-center justify-center bg-white`}>
-            <Image src={item.image} alt={item.institution} class="w-12 h-12 md:w-20 md:h-20" />
-          </div>
-          <div class="flex flex-col flex-1 text-center md:text-left">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-2">
-              <h3 class="text-xl md:text-2xl font-medium text-[var(--white)]">
+    <div class="border-b border-[var(--white-icon-tr)]">
+      {
+        educations.map((item, index) => (
+          <article
+            class:list={[
+              "grid grid-cols-[3rem_minmax(0,1fr)] items-center gap-x-4 gap-y-3 py-7 md:grid-cols-[4.5rem_minmax(0,1fr)_auto] md:gap-x-8 md:py-8",
+              index > 0 && "border-t border-[var(--white-icon-tr)]",
+            ]}
+          >
+            <div
+              class:list={[
+                "flex size-12 shrink-0 items-center justify-center rounded-full border border-[var(--white-icon-tr)] bg-[var(--white-icon-tr)] p-1.5 md:size-14",
+                item.logoClass === "dal" && "dark:bg-[var(--background)]",
+                item.logoClass === "bracu" && "dark:bg-[var(--white)]",
+              ]}
+            >
+              <Image
+                src={item.image}
+                alt=""
+                aria-hidden="true"
+                class:list={[
+                  "size-full object-contain",
+                  item.logoClass === "bracu" && "rounded-full",
+                  item.logoClass === "dal" && "dark:brightness-0 dark:invert",
+                ]}
+              />
+            </div>
+
+            <div class="min-w-0">
+              <h3 class="text-lg font-medium tracking-tight md:text-2xl">
                 {item.degree}
               </h3>
-              <span class="text-[var(--white-icon)] text-xs md:text-sm mt-1 md:mt-0 px-2 py-0.5 rounded-full border border-[var(--white-icon-tr)] self-center md:self-auto">
-                {item.year}
-              </span>
+              <p class="mt-1 text-sm text-[var(--white-icon)] md:text-base">
+                {item.institution}
+              </p>
             </div>
-            <h4 class="text-sm md:text-base text-[var(--white-icon)] mb-3">
-              {item.institution}
-            </h4>
-            <ul class="text-[var(--white-icon)] text-sm md:text-[0.95rem] space-y-1.5 list-disc pl-5 marker:text-[var(--sec)]">
-              {item.description.map((line) => (
-                <li>{line}</li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      ))}
+
+            <time
+              class="col-start-2 row-start-2 text-xs font-medium uppercase tracking-[0.12em] text-[var(--white-icon)] md:col-start-3 md:row-start-1 md:justify-self-end md:text-sm"
+              datetime={item.dateValue}
+            >
+              {item.date}
+            </time>
+          </article>
+        ))
+      }
     </div>
   </div>
 </section>
