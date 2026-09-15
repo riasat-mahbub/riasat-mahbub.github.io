@@ -1,8 +1,12 @@
 ---
+type MediaType = "video" | "image" | "placeholder";
+
 interface Project {
   title: string;
   slug: string;
   link: string;
+  mediaType: MediaType;
+  image?: string;
   poster?: string;
   summary: string;
   highlights: string[];
@@ -10,11 +14,12 @@ interface Project {
 }
 
 const projects: Project[] = [
-    {
+  {
     title: "Aergia",
     slug: "aergia",
     link: "https://github.com/riasat-mahbub/aergia-new",
-    poster: "/images/aergia.png",
+    mediaType: "video",
+    poster: "/videos/aergia-poster.webp",
     summary:
       "A CV builder that makes the path from editing to a finished PDF feel direct.",
     highlights: [
@@ -22,12 +27,14 @@ const projects: Project[] = [
       "Offers Modern, Classic, and Minimal templates without changing the content model.",
       "Shares one HTML renderer between the live preview and PDF export, including links.",
     ],
-    tags: ["React", "FastAPI", "PDF Generation", "SQLite", "Resume Builder"],
+    tags: ["React", "FastAPI", "PDF Generation", "SQLite", "Resume Builder", "TanStack", "Docker", "Vite", "Playwright"],
   },
   {
     title: "Project Tracker",
     slug: "project-tracker",
     link: "https://github.com/riasat-mahbub/project-tracker-unified",
+    mediaType: "video",
+    poster: "/videos/project-tracker-poster.webp",
     summary:
       "A reusable memory layer that helps coding agents keep project context close to the work.",
     highlights: [
@@ -35,12 +42,22 @@ const projects: Project[] = [
       "Developed a CLI for creating, updating, searching, validating, rebuilding, and repairing project state, with generated dashboards and machine-readable graph output.",
       "Implemented BM25, fuzzy, regex, and exact-phrase search to help agents retrieve relevant project context before making code changes.",
     ],
-    tags: ["Skill", "Markdown", "YAML", "Knowledge Graph", "Python", "Information Retrieval", "BM25", "JSON"],
+    tags: [
+      "Skill",
+      "Markdown",
+      "YAML",
+      "Knowledge Graph",
+      "Python",
+      "Information Retrieval",
+      "BM25",
+      "JSON",
+    ],
   },
   {
     title: "MBuddy",
     slug: "mbuddy",
     link: "https://github.com/riasat-mahbub/MBuddy",
+    mediaType: "placeholder",
     summary: "A unified media database for unusually specific recommendations.",
     highlights: [
       "Indexes manga, anime, manhwa, games, movies, TV, and novels in one catalog.",
@@ -100,21 +117,40 @@ const projects: Project[] = [
                 </div>
               </div>
 
-              <video
-                class="project-video absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500"
-                data-project-video
-                autoplay
-                muted
-                loop
-                playsinline
-                controls
-                preload="metadata"
-                poster={project.poster}
-                aria-label={`${project.title} project demo`}
-              >
-                <source src={`/videos/${project.slug}.mp4`} type="video/mp4" />
-                Your browser does not support embedded videos.
-              </video>
+              {project.mediaType === "video" && (
+                <video
+                  class="project-video absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500"
+                  data-project-video
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  controls
+                  preload="metadata"
+                  poster={project.poster}
+                  aria-label={`${project.title} project demo`}
+                >
+                  <source
+                    src={`/videos/${project.slug}.webm`}
+                    type="video/webm"
+                  />
+                  <source
+                    src={`/videos/${project.slug}.mp4`}
+                    type="video/mp4"
+                  />
+                  Your browser does not support embedded videos.
+                </video>
+              )}
+              {project.mediaType === "image" && project.image && (
+                <img
+                  class="project-image absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500"
+                  data-project-image
+                  src={project.image}
+                  alt={`${project.title} project preview`}
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
             </div>
 
             <div class="project-copy min-w-0">
@@ -221,6 +257,9 @@ const projects: Project[] = [
   const projectVideos = document.querySelectorAll<HTMLVideoElement>(
     "[data-project-video]",
   );
+  const projectImages = document.querySelectorAll<HTMLImageElement>(
+    "[data-project-image]",
+  );
   const prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
   ).matches;
@@ -246,6 +285,21 @@ const projects: Project[] = [
       video.classList.add("is-ready");
     }
   });
+
+  projectImages.forEach((image) => {
+    image.addEventListener("load", () => image.classList.add("is-ready"), {
+      once: true,
+    });
+    image.addEventListener(
+      "error",
+      () => image.classList.add("is-unavailable"),
+      { once: true },
+    );
+
+    if (image.complete && image.naturalWidth > 0) {
+      image.classList.add("is-ready");
+    }
+  });
 </script>
 
 <style>
@@ -267,7 +321,15 @@ const projects: Project[] = [
     opacity: 1;
   }
 
+  .project-image.is-ready {
+    opacity: 1;
+  }
+
   .project-video.is-unavailable {
+    display: none;
+  }
+
+  .project-image.is-unavailable {
     display: none;
   }
 
