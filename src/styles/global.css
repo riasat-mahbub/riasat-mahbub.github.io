@@ -68,3 +68,7 @@
   scrollbar-width: thin;
   scrollbar-color: var(--white-icon-tr) transparent;
 }
+
+section[id] {
+  scroll-margin-top: 6rem;
+}
