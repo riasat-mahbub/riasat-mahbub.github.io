@@ -1,126 +1,280 @@
 ---
 interface Project {
   title: string;
+  slug: string;
   link: string;
-  description: string;
-  tags?: string[];
+  poster?: string;
+  summary: string;
+  highlights: string[];
+  tags: string[];
 }
 
 const projects: Project[] = [
+    {
+    title: "Aergia",
+    slug: "aergia",
+    link: "https://github.com/riasat-mahbub/aergia-new",
+    poster: "/images/aergia.png",
+    summary:
+      "A CV builder that makes the path from editing to a finished PDF feel direct.",
+    highlights: [
+      "Organizes resume editing in a panel-based schematic editor.",
+      "Offers Modern, Classic, and Minimal templates without changing the content model.",
+      "Shares one HTML renderer between the live preview and PDF export, including links.",
+    ],
+    tags: ["React", "FastAPI", "PDF Generation", "SQLite", "Resume Builder"],
+  },
+  {
+    title: "Project Tracker",
+    slug: "project-tracker",
+    link: "https://github.com/riasat-mahbub/project-tracker-unified",
+    summary:
+      "A reusable memory layer that helps coding agents keep project context close to the work.",
+    highlights: [
+      "Built a persistent knowledge-graph system for AI coding agents, linking bugs, features, tasks, decisions,affected files, dependencies, and backlinks across a codebase.",
+      "Developed a CLI for creating, updating, searching, validating, rebuilding, and repairing project state, with generated dashboards and machine-readable graph output.",
+      "Implemented BM25, fuzzy, regex, and exact-phrase search to help agents retrieve relevant project context before making code changes.",
+    ],
+    tags: ["Skill", "Markdown", "YAML", "Knowledge Graph", "Python", "Information Retrieval", "BM25", "JSON"],
+  },
   {
     title: "MBuddy",
+    slug: "mbuddy",
     link: "https://github.com/riasat-mahbub/MBuddy",
-    description: "Canonical unified media database for cross-media recommendations (manga, anime, manhwa, games, movies, TV, novels). Current MVP focuses on manga + anime with semantic search, powered by FastAPI + SQLite and a 5-source ingestion pipeline (AniList, Kitsu, MAL, MangaUpdates, manami-project) producing 189,000+ entries.",
+    summary: "A unified media database for unusually specific recommendations.",
+    highlights: [
+      "Indexes manga, anime, manhwa, games, movies, TV, and novels in one catalog.",
+      "Uses semantic search across 189,000+ entries to make discovery feel natural.",
+      "Ingests data from five sources with a FastAPI and SQLite backend.",
+    ],
     tags: ["Python", "FastAPI", "SQLite", "Embeddings", "Recommender"],
-  },
-  {
-    title: "Aergia",
-    link: "https://github.com/riasat-mahbub/aergia-new",
-    description: "Single-user CV builder with a panel-based schematic editor, three templates (Modern, Classic, Minimal), and live PDF export. The same HTML renderer drives both the preview iframe and the PDF — what you see is what you ship, including real clickable link annotations.",
-    tags: ["React", "FastAPI", "PDF Generation", "SQLite", "Resume Builder", "Templates"],
-  },
-  {
-    title: "Wozaro",
-    link: "https://github.com/riasat-mahbub/wozaro",
-    description: "A web-based word games collection built with Next.js 15 + React 19, featuring a Wordle-style 5-letter game and a 7-letter Spelling Bee challenge. Responsive UI with on-screen and physical-keyboard input, daily puzzles, and progress tracking.",
-    tags: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Word Games"],
-  },
-  {
-    title: "project-tracker-skill",
-    link: "https://github.com/riasat-mahbub/project-tracker-skill",
-    description: "A reusable skill for AI coding agents (Reasonix, OpenCode, Claude Code) that maintains a file-based project knowledge graph — tracking bugs, features, ADRs, and tasks as markdown files with YAML frontmatter.",
-    tags: ["Skill", "Markdown", "YAML", "Knowledge Graph"],
-  },
-  {
-    title: "project-tracker-graph",
-    link: "https://github.com/riasat-mahbub/project-tracker-graph",
-    description: "A Python CLI library for building and querying file-based project knowledge graphs. Generates dashboards, JSON adjacency maps, and automatic backlinks so agents can navigate project structure without parsing every file.",
-    tags: ["Python", "CLI", "Knowledge Graph", "YAML"],
-  },
-  {
-    title: "footer-branding",
-    link: "https://github.com/riasat-mahbub/footer-branding",
-    description: "A template-driven, customizable footer component for little-coder terminals featuring a honey-colored watermark, color-coded context usage, token counts, cost tracking, and model info.",
-    tags: ["TypeScript", "Templates", "CLI", "Terminal"],
   },
 ];
 ---
 
-<section class="py-16 border-[#ffffff10] text-[var(--white)] border-t-2" id="projects">
-  <article class="max-w-5xl mx-auto">
-    <h2 class="text-lg text-[var(--sec)] mb-2">My personal works</h2>
-    <h3 class="text-4xl md:text-5xl font-medium mb-8">Projects</h3>
+<section
+  class="border-t-2 border-[var(--white-icon-tr)] px-4 py-20 text-[var(--white)] md:px-8 md:py-28"
+  id="projects"
+>
+  <div class="mx-auto max-w-6xl">
+    <header class="max-w-2xl">
+      <p
+        class="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--sec)]"
+      >
+        Selected work
+      </p>
+      <h2 class="text-4xl font-medium tracking-tight md:text-6xl">Projects</h2>
+      <p
+        class="mt-5 max-w-xl text-base leading-relaxed text-[var(--white-icon)] md:text-lg"
+      >
+        Products, tools, and experiments built around making complicated things
+        easier to use.
+      </p>
+    </header>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
-      {projects.map((project) => (
-        <a
-          href={project.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group"
-        >
-          <div
-            class="flex flex-col justify-between h-full rounded-2xl shadow-lg bg-[#1414149c]
-                  p-5 sm:p-6 transition-all duration-300 
-                  hover:shadow-xl hover:scale-[1.03] hover:bg-[#1c1c1c]"
+    <div class="mt-12 md:mt-16">
+      {
+        projects.map((project, index) => (
+          <article
+            class:list={[
+              "project-row grid gap-8 border-t border-[var(--white-icon-tr)] py-12 md:gap-10 md:py-16 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)] lg:items-center lg:gap-20 lg:py-20",
+              index % 2 === 1 && "project-row--reversed",
+              index === projects.length - 1 && "border-b",
+            ]}
           >
-            <div>
-              <h4 class="text-xl sm:text-2xl font-semibold mb-2 leading-snug">
-                {project.title}
-              </h4>
-              <p class="text-sm sm:text-base text-[var(--white-icon)] leading-relaxed mb-3">
-                {project.description}
-              </p>
-              {project.tags && project.tags.length > 0 && (
-                <div class="flex flex-wrap gap-2 mt-2">
-                  {project.tags.map(tag => (
-                    <span class="px-2 py-1 bg-[var(--white-icon-tr)] text-[var(--white-icon)] rounded text-xs">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <div
-              class="self-end mt-6 size-12 sm:size-14 flex justify-center items-center 
-                    text-[var(--white-icon)] hover:text-white transition duration-300 ease-in-out 
-                    border border-[var(--white-icon-tr)] p-3 rounded-xl 
-                    bg-[#1414149c] hover:bg-[var(--white-icon-tr)]"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                class="size-6 sm:size-7"
+            <div class="project-media relative aspect-video overflow-hidden rounded-xl border border-[var(--white-icon-tr)] bg-[var(--white-icon-tr)] shadow-lg">
+              <div
+                class="project-media-fallback absolute inset-0 flex flex-col justify-between p-5 md:p-7"
                 aria-hidden="true"
               >
-                <path d="M16.0037 9.41421L7.39712 18.0208L5.98291 16.6066L14.5895 8H7.00373V6H18.0037V17H16.0037V9.41421Z" />
-              </svg>
+                <span class="text-sm font-semibold tracking-[0.2em] text-[var(--sec)]">
+                  0{index + 1}
+                </span>
+                <div>
+                  <p class="text-2xl font-semibold tracking-tight md:text-3xl">
+                    {project.title}
+                  </p>
+                  <p class="mt-2 text-sm text-[var(--white-icon)]">
+                    Project demo
+                  </p>
+                </div>
+              </div>
+
+              <video
+                class="project-video absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500"
+                data-project-video
+                autoplay
+                muted
+                loop
+                playsinline
+                controls
+                preload="metadata"
+                poster={project.poster}
+                aria-label={`${project.title} project demo`}
+              >
+                <source src={`/videos/${project.slug}.mp4`} type="video/mp4" />
+                Your browser does not support embedded videos.
+              </video>
             </div>
-          </div>
-        </a>
-      ))}
+
+            <div class="project-copy min-w-0">
+              <div class="mb-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--white-icon)]">
+                <span class="text-[var(--sec)]">0{index + 1}</span>
+                <span
+                  class="h-px w-8 bg-[var(--white-icon-tr)]"
+                  aria-hidden="true"
+                />
+                <span>Open source</span>
+              </div>
+
+              <h3 class="text-3xl font-semibold tracking-tight md:text-4xl">
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="transition-colors duration-300 hover:text-[var(--sec)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)]"
+                >
+                  {project.title}
+                </a>
+              </h3>
+
+              <p class="mt-4 text-lg leading-relaxed text-[var(--white)]">
+                {project.summary}
+              </p>
+
+              <ul class="mt-6 space-y-3 text-sm leading-relaxed text-[var(--white-icon)] md:text-base">
+                {project.highlights.map((highlight) => (
+                  <li class="flex gap-3">
+                    <span
+                      class="mt-[0.65em] size-1.5 shrink-0 rounded-full bg-[var(--sec)]"
+                      aria-hidden="true"
+                    />
+                    <span>{highlight}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div class="mt-7 flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <span class="border border-[var(--white-icon-tr)] px-2.5 py-1 text-xs text-[var(--white-icon)]">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              <a
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group mt-8 inline-flex items-center gap-2 text-sm font-semibold text-[var(--white)] transition-colors duration-300 hover:text-[var(--sec)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)]"
+              >
+                View on GitHub
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="size-4 transition-transform duration-300 group-hover:translate-x-0.5"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h13" />
+                  <path d="m13 6 6 6-6 6" />
+                </svg>
+              </a>
+            </div>
+          </article>
+        ))
+      }
     </div>
-    <div class="w-full flex items-center justify-center mt-9">
+
+    <div class="mt-12 flex justify-center md:mt-16">
       <a
-        target="_blank"
         href="https://github.com/riasat-mahbub?tab=repositories"
-        aria-label="GitHub"
-        class="w-full max-w-5xl mx-auto flex items-center justify-center gap-2 text-[var(--white-icon)] dark:hover:text-white hover:text-black transition duration-300 ease-in-out border border-[var(--white-icon-tr)] p-3 rounded-full bg-[#1414149c] hover:bg-[var(--white-icon-tr)] hover:scale-105"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group inline-flex items-center gap-2 border border-[var(--white-icon-tr)] px-5 py-3 text-sm font-semibold text-[var(--white-icon)] transition-colors duration-300 hover:border-[var(--sec)] hover:text-[var(--white)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)]"
       >
-        <span class="md:text-lg text-md">More projects on</span>
+        More projects on GitHub
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
-          fill="currentColor"
-          class="size-6"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="size-4 transition-transform duration-300 group-hover:translate-x-0.5"
+          aria-hidden="true"
         >
-          <path
-            d="M12.001 2C6.47598 2 2.00098 6.475 2.00098 12C2.00098 16.425 4.86348 20.1625 8.83848 21.4875C9.33848 21.575 9.52598 21.275 9.52598 21.0125C9.52598 20.775 9.51348 19.9875 9.51348 19.15C7.00098 19.6125 6.35098 18.5375 6.15098 17.975C6.03848 17.6875 5.55098 16.8 5.12598 16.5625C4.77598 16.375 4.27598 15.9125 5.11348 15.9C5.90098 15.8875 6.46348 16.625 6.65098 16.925C7.55098 18.4375 8.98848 18.0125 9.56348 17.75C9.65098 17.1 9.91348 16.6625 10.201 16.4125C7.97598 16.1625 5.65098 15.3 5.65098 11.475C5.65098 10.3875 6.03848 9.4875 6.67598 8.7875C6.57598 8.5375 6.22598 7.5125 6.77598 6.1375C6.77598 6.1375 7.61348 5.875 9.52598 7.1625C10.326 6.9375 11.176 6.825 12.026 6.825C12.876 6.825 13.726 6.9375 14.526 7.1625C16.4385 5.8625 17.276 6.1375 17.276 6.1375C17.826 7.5125 17.476 8.5375 17.376 8.7875C18.0135 9.4875 18.401 10.375 18.401 11.475C18.401 15.3125 16.0635 16.1625 13.8385 16.4125C14.201 16.725 14.5135 17.325 14.5135 18.2625C14.5135 19.6 14.501 20.675 14.501 21.0125C14.501 21.275 14.6885 21.5875 15.1885 21.4875C19.259 20.1133 21.9999 16.2963 22.001 12C22.001 6.475 17.526 2 12.001 2Z"
-          ></path>
+          <path d="M5 12h13"></path>
+          <path d="m13 6 6 6-6 6"></path>
         </svg>
       </a>
     </div>
-  </article>
+  </div>
 </section>
+
+<script>
+  const projectVideos = document.querySelectorAll<HTMLVideoElement>(
+    "[data-project-video]",
+  );
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  projectVideos.forEach((video) => {
+    video.addEventListener(
+      "loadeddata",
+      () => video.classList.add("is-ready"),
+      { once: true },
+    );
+    video.addEventListener(
+      "error",
+      () => video.classList.add("is-unavailable"),
+      { once: true },
+    );
+
+    if (prefersReducedMotion) {
+      video.pause();
+      video.removeAttribute("autoplay");
+    }
+
+    if (video.readyState >= 2) {
+      video.classList.add("is-ready");
+    }
+  });
+</script>
+
+<style>
+  .project-row--reversed .project-media {
+    order: 2;
+  }
+
+  .project-row--reversed .project-copy {
+    order: 1;
+  }
+
+  .project-media-fallback {
+    background:
+      radial-gradient(circle at 90% 10%, var(--white-icon-tr), transparent 42%),
+      var(--background);
+  }
+
+  .project-video.is-ready {
+    opacity: 1;
+  }
+
+  .project-video.is-unavailable {
+    display: none;
+  }
+
+  @media (max-width: 1023px) {
+    .project-row--reversed .project-media,
+    .project-row--reversed .project-copy {
+      order: initial;
+    }
+  }
+</style>
