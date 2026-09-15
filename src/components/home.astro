@@ -4,23 +4,29 @@ import { Image } from "astro:assets";
 import riasat from "../../public/new_og.jpg";
 ---
 
-<section class="max-w-5xl min-h-screen mx-auto space-y-8 md:py-36 pb-14 flex flex-col items-center justify-center" id="home">
+<section class="max-w-5xl min-h-[95vh] mx-auto space-y-8 md:py-36 pb-14 flex flex-col items-center justify-center" id="home">
   <div class="flex flex-col lg:flex-row items-center justify-center lg:items-start lg:space-x-12 my-auto ">
     
     <!-- Text Section -->
-    <div class="flex-1 flex flex-col">
+    <div class="flex-1 flex flex-col items-center">
       <h1 class="text-5xl md:text-6xl font-semibold text-[var(--white)]">
         <span class="dark:text-red-700 text-red-500">Hi</span>, I'm Riasat
       </h1>
       <div class="flex flex-col lg:items-start mt-10 md:gap-4 space-y-4">
       <p class="text-md md:text-xl text-[var(--white-icon)]">
-              I build <span class="dark:text-purple-400 text-purple-700 font-medium">human-centric software</span>, from full-stack web applications to AI-assisted developer tools.
-              My work pairs <span class="dark:text-purple-400 text-purple-700 font-medium">clean design</span> with <span class="dark:text-purple-400 text-purple-700 font-medium">solid engineering judgment</span> to build tools people actually want to use.
+        I'm a software engineer with a background in full-stack development and software engineering research.
       </p>
 
       <p class="text-md md:text-xl text-[var(--white-icon)]">
-              Projects range from full web applications to local recommendation engines built on hybrid embeddings and text search, to extensions for AI coding agents.
-              Scroll down to see them.
+        Sometimes that means
+        <span class="flip dark:text-purple-400 text-purple-700 font-medium">
+          <span>
+            <span>building a CV platform with its own editor and document engine</span>
+            <span>designing persistent memory and knowledge graph for coding agents.</span>
+            <span>Retrieving 289,000+ manga for oddly specific recommendations.</span>
+            <span>mining 482 repositories for a research paper.</span>
+          </span>
+        </span>
       </p>
         
         <SocialLinks/>
@@ -39,7 +45,7 @@ import riasat from "../../public/new_og.jpg";
     </div>
 
     <!-- Image Section -->
-    <div class="hidden md:flex lg:flex-shrink-0 justify-center mb-6 lg:mb-0">
+    <!-- <div class="hidden md:flex lg:flex-shrink-0 justify-center mb-6 lg:mb-0">
       <Image
         src={riasat}
         alt="Riasat Mahbub"
@@ -47,9 +53,42 @@ import riasat from "../../public/new_og.jpg";
         height={272}
         class="rounded-full border-4 border-[var(--white)] object-cover"
       />
-    </div>
+    </div> -->
 
   </div>
 
 </section>
 
+<style>
+  .flip {
+    display: inline-block;
+    height: 1.4em;
+    overflow: hidden;
+    vertical-align: bottom;
+  }
+
+  .flip > span {
+    display: flex;
+    flex-direction: column;
+    animation: flip 12s infinite;
+  }
+
+  .flip span span {
+    height: 1.4em;
+    white-space: nowrap;
+  }
+
+  @keyframes flip {
+    0%, 20%   { transform: translateY(0); }
+    25%, 45%  { transform: translateY(-1.4em); }
+    50%, 70%  { transform: translateY(-2.8em); }
+    75%, 95%  { transform: translateY(-4.2em); }
+    100%       { transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flip > span {
+      animation: none;
+    }
+  }
+</style>
