@@ -108,7 +108,8 @@ const experiences: Experience[] = [
                     alt=""
                     aria-hidden="true"
                     class:list={[
-                      "size-full rounded-full object-cover",
+                      "size-full object-contain",
+                      item.logoClass === "bs23" && "rounded-full object-cover",
                       item.logoClass === "dal" && "dark:brightness-0 dark:invert",
                     ]}
                   />
