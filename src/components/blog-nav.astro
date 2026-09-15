@@ -1,57 +1,301 @@
 ---
+import ThemeToggle from "@/components/theme-toggle.astro";
+
 export interface Props {
   currentPath?: string;
 }
 
-const { currentPath = '' } = Astro.props;
+const { currentPath = "" } = Astro.props;
+const normalizedPath = currentPath.replace(/\/+$/, "") || "/";
+const isHomeActive = normalizedPath === "/";
+const isTagsActive = normalizedPath === "/blog/tags" || normalizedPath.startsWith("/blog/tags/");
+const isAllPostsActive = normalizedPath === "/blog" || (normalizedPath.startsWith("/blog/") && !isTagsActive);
+
+const links = [
+  { label: "Home", href: "/", active: isHomeActive },
+  { label: "All Posts", href: "/blog", active: isAllPostsActive },
+  { label: "Tags", href: "/blog/tags", active: isTagsActive },
+];
 ---
 
-<div class="flex justify-center w-full">
-  <nav class="fixed left-1/2 -translate-x-1/2 z-[100] bg-[var(--background)] border border-[var(--white-icon-tr)] backdrop-blur-xl transition-all duration-500 ease-in-out top-6 px-6 py-3 rounded-full">
-    <ul class="flex items-center gap-6">
-      <li>
-        <a
-          href="/"
-          class="flex items-center gap-2 text-[var(--white-icon)] hover:text-[var(--white)] transition-colors text-base font-medium"
-          aria-current={currentPath === '/' ? 'page' : undefined}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5" aria-hidden="true">
-            <path d="M19 21H5C4.44772 21 4 20.5523 4 20V11L1 11L11.3273 1.6115C11.7087 1.26475 12.2913 1.26475 12.6727 1.6115L23 11L20 11V20C20 20.5523 19.5523 21 19 21ZM6 19H18V9.15745L12 3.7029L6 9.15745V19Z"/>
-          </svg>
-          <span class="hidden sm:inline">Home</span>
-        </a>
-      </li>
-      <li class="w-px h-5 bg-[var(--white-icon-tr)]"></li>
-      <li>
-        <a
-          href="/blog"
-          class="text-[var(--white-icon)] hover:text-[var(--white)] transition-colors text-base font-medium"
-          aria-current={currentPath === '/blog' ? 'page' : undefined}
-        >
-          All Posts
-        </a>
-      </li>
-      <li>
-        <a
-          href="/blog/tags"
-          class="text-[var(--white-icon)] hover:text-[var(--white)] transition-colors text-base font-medium"
-          aria-current={currentPath.startsWith('/blog/tags') ? 'page' : undefined}
-        >
-          Tags
-        </a>
-      </li>
+<header class="fixed inset-x-0 top-0 z-[100] px-4 pt-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
+  <nav
+    id="blog-nav"
+    class="blog-header mx-auto flex w-full max-w-site items-center justify-between gap-4 rounded-xl border border-transparent px-1 py-2 transition-[background-color,border-color,box-shadow] duration-300 sm:px-2 lg:gap-6"
+    aria-label="Blog navigation"
+  >
+    <a
+      href="/"
+      aria-label="Riasat Mahbub — Home"
+      class="group flex min-w-0 shrink-0 items-center gap-2 text-[var(--white)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)]"
+    >
+
+      <span class="hidden truncate text-md ml-2 font-semibold tracking-tight transition-colors group-hover:text-[var(--sec)] sm:inline lg:text-base">
+        Riasat Mahbub
+      </span>
+
+    </a>
+
+    <div class="flex min-w-0 items-center gap-2 lg:gap-5">
+      <div class="hidden items-center gap-1 lg:flex" aria-label="Blog sections">
+        {
+          links.map((link, index) => (
+            <Fragment>
+              {index === 1 && <span class="mx-2 h-5 w-px bg-[var(--white-icon-tr)]" aria-hidden="true"></span>}
+              <a
+                href={link.href}
+                class:list={[
+                  "blog-link relative inline-flex rounded-md px-3 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)]",
+                  link.active
+                    ? "text-[var(--white)] active"
+                    : "text-[var(--white-icon)] hover:text-[var(--white)]",
+                ]}
+                aria-current={link.active ? "page" : undefined}
+              >
+                {link.label}
+              </a>
+            </Fragment>
+          ))
+        }
+      </div>
+
+      <a
+        href="/rss.xml"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden items-center gap-2 rounded-md px-2 py-2 text-sm font-medium text-[var(--white-icon)] transition-colors hover:text-[var(--white)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)] lg:inline-flex"
+        aria-label="RSS feed (opens in a new tab)"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4" aria-hidden="true">
+          <path d="M3 17C5.20914 17 7 18.7909 7 21H3V17ZM3 10C9.07513 10 14 14.9249 14 21H12C12 16.0294 7.97059 12 3 12V10ZM3 3C12.9411 3 21 11.0589 21 21H19C19 12.1634 11.8366 5 3 5V3Z" />
+        </svg>
+        RSS
+      </a>
+
+      <ThemeToggle embedded />
+
+      <button
+        id="blog-nav-menu-button"
+        type="button"
+        class="inline-flex size-11 items-center justify-center rounded-lg border border-[var(--white-icon-tr)] text-[var(--white-icon)] transition-colors hover:bg-[var(--white-icon-tr)] hover:text-[var(--white)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)] lg:hidden"
+        aria-controls="blog-nav-drawer"
+        aria-expanded="false"
+        aria-label="Open blog menu"
+      >
+        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<div
+  id="blog-nav-drawer"
+  class="blog-nav-drawer pointer-events-none fixed inset-0 z-[90] invisible opacity-0 transition-opacity duration-300 lg:hidden"
+  aria-hidden="true"
+  inert
+>
+  <button
+    id="blog-nav-backdrop"
+    type="button"
+    class="absolute inset-0 cursor-default bg-[var(--background)]/80 backdrop-blur-sm"
+    aria-label="Close blog menu"
+  ></button>
+
+  <div
+    class="blog-nav-panel absolute right-4 top-20 max-h-[calc(100dvh-6rem)] w-[calc(100%-2rem)] max-w-sm overflow-y-auto rounded-xl border border-[var(--white-icon-tr)] bg-[var(--background)] p-4 shadow-2xl sm:right-6 sm:w-96"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="blog-nav-panel-title"
+    tabindex="-1"
+  >
+    <div class="flex items-center justify-between border-b border-[var(--white-icon-tr)] pb-3">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--sec)]">Riasat Mahbub</p>
+        <p id="blog-nav-panel-title" class="mt-1 text-lg font-medium text-[var(--white)]">Writing</p>
+      </div>
+      <button
+        id="blog-nav-close-button"
+        type="button"
+        class="inline-flex size-9 items-center justify-center rounded-lg text-[var(--white-icon)] transition-colors hover:bg-[var(--white-icon-tr)] hover:text-[var(--white)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)]"
+        aria-label="Close blog menu"
+      >
+        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+          <path d="m6 6 12 12M18 6 6 18" />
+        </svg>
+      </button>
+    </div>
+
+    <ul class="mt-2 divide-y divide-[var(--white-icon-tr)]">
+      {
+        links.map((link, index) => (
+          <li>
+            <a
+              href={link.href}
+              class:list={[
+                "blog-drawer-link flex items-center gap-4 rounded-lg px-2 py-3.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)]",
+                link.active
+                  ? "bg-[var(--white-icon-tr)] text-[var(--white)]"
+                  : "text-[var(--white-icon)] hover:bg-[var(--white-icon-tr)] hover:text-[var(--white)]",
+              ]}
+              aria-current={link.active ? "page" : undefined}
+            >
+              <span class="w-7 shrink-0 text-xs font-semibold tracking-[0.14em] text-[var(--sec)]">0{index + 1}</span>
+              <span class="flex-1 text-base font-medium">{link.label}</span>
+              <svg class="size-4 shrink-0 opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h13M13 6l6 6-6 6" />
+              </svg>
+            </a>
+          </li>
+        ))
+      }
       <li>
         <a
           href="/rss.xml"
-          target="_blank" rel="noopener noreferrer"
-          class="flex items-center gap-1 text-[var(--white-icon)] hover:text-[var(--white)] transition-colors text-base font-medium"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="blog-drawer-link flex items-center gap-4 rounded-lg px-2 py-3.5 text-[var(--white-icon)] transition-colors hover:bg-[var(--white-icon-tr)] hover:text-[var(--white)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)]"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4" aria-hidden="true">
-            <path d="M3 17C5.20914 17 7 18.7909 7 21H3V17ZM3 10C9.07513 10 14 14.9249 14 21H12C12 16.0294 7.97059 12 3 12V10ZM3 3C12.9411 3 21 11.0589 21 21H19C19 12.1634 11.8366 5 3 5V3Z"/>
+          <span class="flex w-7 shrink-0 justify-center text-[var(--sec)]">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-4" aria-hidden="true">
+              <path d="M3 17C5.20914 17 7 18.7909 7 21H3V17ZM3 10C9.07513 10 14 14.9249 14 21H12C12 16.0294 7.97059 12 3 12V10ZM3 3C12.9411 3 21 11.0589 21 21H19C19 12.1634 11.8366 5 3 5V3Z" />
+            </svg>
+          </span>
+          <span class="flex-1 text-base font-medium">RSS feed</span>
+          <svg class="size-4 shrink-0 opacity-50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14 5h5v5M19 5l-8 8" />
+            <path d="M18 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />
           </svg>
-          <span class="hidden sm:inline">RSS</span>
         </a>
       </li>
     </ul>
-  </nav>
+  </div>
 </div>
+
+<script>
+  const blogNav = document.getElementById("blog-nav");
+  const menuButton = document.getElementById("blog-nav-menu-button");
+  const closeButton = document.getElementById("blog-nav-close-button");
+  const backdrop = document.getElementById("blog-nav-backdrop");
+  const drawer = document.getElementById("blog-nav-drawer");
+  const drawerPanel = drawer?.querySelector<HTMLElement>(".blog-nav-panel");
+
+  const setMenuOpen = (isOpen: boolean) => {
+    if (!drawer || !menuButton) return;
+
+    drawer.classList.toggle("is-open", isOpen);
+    drawer.setAttribute("aria-hidden", String(!isOpen));
+    menuButton.setAttribute("aria-expanded", String(isOpen));
+    menuButton.setAttribute("aria-label", isOpen ? "Close blog menu" : "Open blog menu");
+
+    if (isOpen) {
+      drawer.removeAttribute("inert");
+      document.body.style.overflow = "hidden";
+      window.setTimeout(() => drawerPanel?.focus(), 0);
+    } else {
+      drawer.setAttribute("inert", "");
+      document.body.style.overflow = "";
+      if (document.activeElement !== menuButton) menuButton.focus();
+    }
+  };
+
+  const updateHeader = () => {
+    blogNav?.classList.toggle("is-scrolled", window.scrollY > 12);
+  };
+
+  menuButton?.addEventListener("click", () => {
+    setMenuOpen(menuButton.getAttribute("aria-expanded") !== "true");
+  });
+  closeButton?.addEventListener("click", () => setMenuOpen(false));
+  backdrop?.addEventListener("click", () => setMenuOpen(false));
+
+  drawer?.querySelectorAll<HTMLAnchorElement>("a").forEach((link) => {
+    link.addEventListener("click", () => setMenuOpen(false));
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (!drawer || drawer.getAttribute("aria-hidden") === "true") return;
+
+    if (event.key === "Escape") {
+      event.preventDefault();
+      setMenuOpen(false);
+      return;
+    }
+
+    if (event.key !== "Tab" || !drawerPanel) return;
+
+    const focusable = Array.from(
+      drawerPanel.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'),
+    );
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (!first || !last) return;
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
+
+  updateHeader();
+  window.addEventListener("scroll", updateHeader, { passive: true });
+</script>
+
+<style>
+  .blog-header {
+    background-color: color-mix(in srgb, var(--background) 82%, transparent);
+    backdrop-filter: blur(18px);
+  }
+
+  .blog-header.is-scrolled {
+    border-color: var(--white-icon-tr);
+    background-color: color-mix(in srgb, var(--background) 94%, transparent);
+    box-shadow: 0 16px 36px color-mix(in srgb, var(--background) 35%, transparent);
+  }
+
+  .blog-link::after {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.2rem;
+    left: 0.75rem;
+    height: 2px;
+    content: "";
+    background-color: var(--sec);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 200ms ease;
+  }
+
+  .blog-link:hover::after,
+  .blog-link.active::after {
+    transform: scaleX(1);
+  }
+
+  .blog-nav-drawer.is-open {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .blog-nav-panel {
+    transform: translateY(-0.5rem);
+    transition: transform 300ms ease;
+  }
+
+  .blog-nav-drawer.is-open .blog-nav-panel {
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blog-header,
+    .blog-link::after,
+    .blog-nav-drawer,
+    .blog-nav-panel {
+      transition: none;
+    }
+  }
+</style>

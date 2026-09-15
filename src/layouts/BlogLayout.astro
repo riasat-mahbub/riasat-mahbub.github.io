@@ -1,5 +1,4 @@
 ---
-import ThemeToggle from "@/components/theme-toggle.astro";
 import { ClientRouter } from 'astro:transitions';
 
 interface Props {
@@ -68,7 +67,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="alternate" type="application/rss+xml" title="Riasat Mahbub's Blog" href="/rss.xml" />
   </head>
   <body class="bg-[--background] transition-colors duration-300">
-    <ThemeToggle />
     <slot />
     <footer class="border-t border-[var(--white-icon-tr)] mt-16 py-8 text-center text-sm text-[var(--white-icon)]">
       <div class="mx-auto max-w-site px-6">
