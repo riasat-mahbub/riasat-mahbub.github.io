@@ -76,7 +76,7 @@ const experiences: Experience[] = [
       </div>
 
       {
-        experiences.map((item, index) => (
+        experiences.map((item) => (
           <article
             class:list={[
               "relative grid grid-cols-1 gap-3 py-10 sm:grid-cols-[6.5rem_minmax(0,1fr)] sm:gap-6 sm:py-12 md:grid-cols-[7rem_minmax(0,1fr)] md:gap-10"
@@ -98,12 +98,19 @@ const experiences: Experience[] = [
               </h3>
 
               <div class="mt-2 flex items-center gap-2 text-sm text-[var(--white-icon)] md:text-base">
-                <span class="flex size-9 shrink-0 items-center justify-center rounded-full border border-[var(--white-icon-tr)] bg-[var(--white-icon-tr)] p-1.5">
+                <span
+                  class:list={[
+                    "flex size-9 shrink-0 items-center justify-center rounded-full border border-[var(--white-icon-tr)] bg-[var(--white-icon-tr)] p-0.5"
+                  ]}
+                >
                   <Image
                     src={item.image}
                     alt=""
                     aria-hidden="true"
-                    class={`size-full object-contain ${item.logoClass === "dal" ? "dark:brightness-0 dark:invert" : ""}`}
+                    class:list={[
+                      "size-full rounded-full object-cover",
+                      item.logoClass === "dal" && "dark:brightness-0 dark:invert",
+                    ]}
                   />
                 </span>
                 <span>{item.institution}</span>
