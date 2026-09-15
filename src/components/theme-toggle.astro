@@ -1,7 +1,17 @@
 ---
+interface Props {
+  embedded?: boolean;
+}
+
+const { embedded = false } = Astro.props;
 ---
 
-<div class="fixed top-6 right-6 z-[101] flex items-center gap-3">
+<div
+  class:list={[
+    "z-[101] flex items-center",
+    embedded ? "gap-2" : "fixed top-6 right-6 gap-3",
+  ]}
+>
   <a
     id="resume-button"
     href="/CV.pdf"

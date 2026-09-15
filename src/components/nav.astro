@@ -1,167 +1,318 @@
 ---
+import ThemeToggle from "@/components/theme-toggle.astro";
+
 interface NavItem {
   label: string;
   href: string;
-  icon: string;
 }
 
 const navItems: NavItem[] = [
-
-  { label: "Home", href: "#home", icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z"/><path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15.75a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.432z"/></svg>` },
-  { label: "Projects", href: "#projects", icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M17.25 21H6.75A2.25 2.25 0 014.5 18.75V5.25A2.25 2.25 0 016.75 3h10.5A2.25 2.25 0 0119.5 5.25v13.5A2.25 2.25 0 0117.25 21zm-9-4.5h7.5M14.25 9.75L16.5 12l-2.25 2.25M9.75 14.25L7.5 12l2.25-2.25"/></svg>` },
-  { label: "Research", href: "#research", icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M9.97 2.247a.75.75 0 011.06 0l1.5 1.5a.75.75 0 11-1.06 1.06l-.97-.97v3.413h1.5a4.5 4.5 0 014.5 4.5v.75a3 3 0 013 3v3.75a3 3 0 01-3 3H6.75a3 3 0 01-3-3v-3.75a3 3 0 013-3v-.75a4.5 4.5 0 014.5-4.5h1.5V3.838l-.97.97a.75.75 0 11-1.06-1.06l1.5-1.5zM6 13.5v6.75c0 .414.336.75.75.75H7.5v-7.5H6.75a.75.75 0 00-.75.75zm9 7.5h.75a.75.75 0 00.75-.75V13.5a.75.75 0 00-.75-.75H15v7.5z" clip-rule="evenodd"/></svg>` },
-  { label: "Blog", href: "#blog", icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>` },
-
-  { label: "Experience", href: "#experience", icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M7.5 5.25a3 3 0 013-3h3a3 3 0 013 3v.205c.933.085 1.857.197 2.774.334 1.454.218 2.476 1.483 2.476 2.917v6.294a3 3 0 01-3 3H5.25a3 3 0 01-3-3V8.706c0-1.434 1.022-2.7 2.476-2.917A48.814 48.814 0 017.5 5.455V5.25zm7.5 0v.205c.024.002.048.004.072.006a.75.75 0 00.756-.755V5a1.5 1.5 0 00-1.5-1.5h-3A1.5 1.5 0 009 5v.75a.75.75 0 00.756.755c.024-.002.048-.004.072-.006V5.25H15V5z" clip-rule="evenodd"/></svg>` },
-  { label: "Education", href: "#education", icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M11.7 2.805a.75.75 0 01.6 0A60.65 60.65 0 0122.83 8.72a.75.75 0 01-.231 1.337 49.949 49.949 0 00-9.903 3.03m0 0a.75.75 0 00.073.035.75.75 0 01.073-.035m5.183 8.318a.75.75 0 011.061 0 12.65 12.65 0 01-5.193 2.094.75.75 0 01-.513-1.42 11.125 11.125 0 005.13-1.84m-5.13 1.84a.75.75 0 01-.502 0l-.001-.001a75.65 75.65 0 00-2.92-1.157.75.75 0 01-.41-1.014 12.087 12.087 0 013.413-3.413.75.75 0 011.024.413 75.665 75.665 0 01-1.158 2.916.75.75 0 01-.485.567z"/></svg>` },
-  { label: "Connect", href: "#connect", icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>` },
+  { label: "Home", href: "#home" },
+  { label: "Projects", href: "#projects" },
+  { label: "Experience", href: "#experience" },
+  { label: "Blog", href: "#blog" },
+  { label: "Research", href: "#research" },
+  { label: "Education", href: "#education" },
+  { label: "Connect", href: "#connect" },
 ];
 ---
 
-<div class="flex justify-center w-full">
-  <nav id="main-nav" class="fixed left-1/2 -translate-x-1/2 z-[100] bg-[var(--background)] active:font-bold border border-transparent backdrop-blur-xl transition-all duration-500 ease-in-out md:top-6 md:bottom-auto bottom-0 px-4 py-2 rounded-full">
-    <div class="container mx-auto flex justify-center items-center">
-      <ul class="flex gap-6 md:gap-12 justify-center overflow-x-auto scrollbar-hide">
+<div class="fixed inset-x-0 top-0 z-[100] px-4 pt-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
+  <nav
+    id="main-nav"
+    class="site-header mx-auto flex w-full max-w-site items-center justify-between gap-4 rounded-xl border border-transparent px-1 py-2 transition-[background-color,border-color,box-shadow] duration-300 sm:px-2 lg:gap-6"
+    aria-label="Primary navigation"
+  >
+    <a
+      href="#home"
+      aria-label="Riasat Mahbub — Home"
+      class="group flex min-w-0 shrink-0 items-center gap-2 text-[var(--white)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)]"
+    >
+      <span
+        class="hidden truncate text-md ml-2 font-semibold tracking-tight transition-colors group-hover:text-[var(--sec)] sm:inline"
+      >
+        Riasat Mahbub
+      </span>
+    </a>
+
+    <div class="flex min-w-0 items-center gap-2 lg:gap-5">
+      <ul class="hidden items-center gap-4 lg:flex xl:gap-6">
         {
           navItems.map((item) => (
-              <li class="flex-none">
+            <li class="shrink-0">
               <a
                 href={item.href}
-                target={item.href.startsWith("#") ? undefined : "_blank"}
-                rel={item.href.startsWith("#") ? undefined : "noopener noreferrer"}
-                class="flex flex-col items-center gap-1 text-[var(--white-icon)] transition-colors text-xs md:text-base relative group"
+                data-nav-link
+                class="nav-link relative inline-flex py-2 text-xs font-medium text-[var(--white-icon)] transition-colors hover:text-[var(--white)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)] xl:text-sm"
               >
-                <div class="absolute -left-6 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full transition-all duration-300 scale-0 opacity-0 bg-[#A9FF5B] nav-indicator hidden md:block" aria-hidden="true" />
-                <span class="md:hidden flex items-center justify-center w-6 h-6" aria-hidden="true">
-                  <fragment set:html={item.icon} />
-                </span>
-                <span class="hidden md:inline-block">{item.label}</span>
+                {item.label}
               </a>
             </li>
           ))
         }
       </ul>
+
+      <ThemeToggle embedded />
+
+      <button
+        id="nav-menu-button"
+        type="button"
+        class="inline-flex size-11 items-center justify-center rounded-lg border border-[var(--white-icon-tr)] text-[var(--white-icon)] transition-colors hover:bg-[var(--white-icon-tr)] hover:text-[var(--white)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)] lg:hidden"
+        aria-controls="nav-drawer"
+        aria-expanded="false"
+        aria-label="Open navigation menu"
+      >
+        <svg
+          class="size-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+      </button>
     </div>
   </nav>
 </div>
 
+<div
+  id="nav-drawer"
+  class="nav-drawer pointer-events-none fixed inset-0 z-[90] invisible opacity-0 transition-opacity duration-300 lg:hidden"
+  aria-hidden="true"
+  inert
+>
+  <button
+    id="nav-backdrop"
+    type="button"
+    class="absolute inset-0 cursor-default bg-[var(--background)]/80 backdrop-blur-sm"
+    aria-label="Close navigation menu"
+  ></button>
+
+  <div
+    class="nav-panel absolute right-4 top-20 max-h-[calc(100dvh-6rem)] w-[calc(100%-2rem)] max-w-sm overflow-y-auto rounded-xl border border-[var(--white-icon-tr)] bg-[var(--background)] p-4 shadow-2xl sm:right-6 sm:w-96"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="nav-panel-title"
+    tabindex="-1"
+  >
+    <div class="flex items-center justify-between border-b border-[var(--white-icon-tr)] pb-3">
+      <p
+        id="nav-panel-title"
+        class="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--sec)]"
+      >
+        Menu
+      </p>
+      <button
+        id="nav-close-button"
+        type="button"
+        class="inline-flex size-9 items-center justify-center rounded-lg text-[var(--white-icon)] transition-colors hover:bg-[var(--white-icon-tr)] hover:text-[var(--white)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)]"
+        aria-label="Close navigation menu"
+      >
+        <svg
+          class="size-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="m6 6 12 12M18 6 6 18" />
+        </svg>
+      </button>
+    </div>
+
+    <ul class="mt-2 divide-y divide-[var(--white-icon-tr)]">
+      {
+        navItems.map((item, index) => (
+          <li>
+            <a
+              href={item.href}
+              data-nav-link
+              data-drawer-link
+              class="nav-drawer-link flex items-center gap-4 px-2 py-3.5 text-[var(--white-icon)] transition-colors hover:text-[var(--white)] focus-visible:rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)]"
+            >
+              <span class="w-7 shrink-0 text-xs font-semibold tracking-[0.14em] text-[var(--sec)]">
+                0{index + 1}
+              </span>
+              <span class="flex-1 text-base font-medium">{item.label}</span>
+              <svg
+                class="size-4 shrink-0 opacity-50"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12h13M13 6l6 6-6 6" />
+              </svg>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
 <script>
   const nav = document.getElementById("main-nav");
-  const maxScroll = 1000;
-  let rafId: number | null = null;
+  const menuButton = document.getElementById("nav-menu-button");
+  const closeButton = document.getElementById("nav-close-button");
+  const backdrop = document.getElementById("nav-backdrop");
+  const drawer = document.getElementById("nav-drawer");
+  const drawerPanel = drawer?.querySelector<HTMLElement>(".nav-panel");
+  const activeNavLinks = document.querySelectorAll<HTMLAnchorElement>(
+    "[data-nav-link]",
+  );
+  const sections = document.querySelectorAll<HTMLElement>("section[id]");
 
-  // Smooth scroll
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener("click", function(this: HTMLAnchorElement, e: MouseEvent) {
-      if (e.metaKey || e.ctrlKey || e.button !== 0) return;
-      e.preventDefault();
-      const targetId = this.getAttribute("href").substring(1);
-      const targetEl = document.getElementById(targetId);
-      if (targetEl) {
-        targetEl.scrollIntoView({ behavior: "smooth" });
-        targetEl.focus({ preventScroll: true });
-      }
-    });
+  const setMenuOpen = (isOpen: boolean) => {
+    if (!drawer || !menuButton) return;
+
+    drawer.classList.toggle("is-open", isOpen);
+    drawer.setAttribute("aria-hidden", String(!isOpen));
+    menuButton.setAttribute("aria-expanded", String(isOpen));
+    menuButton.setAttribute(
+      "aria-label",
+      isOpen ? "Close navigation menu" : "Open navigation menu",
+    );
+
+    if (isOpen) {
+      drawer.removeAttribute("inert");
+      document.body.style.overflow = "hidden";
+      window.setTimeout(() => drawerPanel?.focus(), 0);
+    } else {
+      drawer.setAttribute("inert", "");
+      document.body.style.overflow = "";
+    }
+  };
+
+  const updateNav = () => {
+    nav?.classList.toggle("is-scrolled", window.scrollY > 12);
+  };
+
+  menuButton?.addEventListener("click", () => {
+    setMenuOpen(menuButton.getAttribute("aria-expanded") !== "true");
+  });
+  closeButton?.addEventListener("click", () => setMenuOpen(false));
+  backdrop?.addEventListener("click", () => setMenuOpen(false));
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") setMenuOpen(false);
   });
 
-  // Scroll shrink effect
-  function updateNav() {
-    if (window.scrollY > 0) {
-      nav?.classList.add("scrolling");
+  document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach(
+    (anchor) => {
+      anchor.addEventListener("click", (event) => {
+        if (event.metaKey || event.ctrlKey || event.button !== 0) return;
 
-      const scrollProgress = Math.min(window.scrollY / maxScroll, 1);
-      const easeProgress = 1 - Math.pow(1 - scrollProgress, 4);
+        const href = anchor.getAttribute("href");
+        const targetId = href?.slice(1);
+        const target = targetId ? document.getElementById(targetId) : null;
 
-      const minWidth = 960; // wider for 7 nav items
-      const maxWidth = Math.min(window.innerWidth * 0.9, 1200);
-      const currentWidth = Math.max(minWidth, maxWidth - (maxWidth - minWidth) * easeProgress);
+        if (!target) return;
 
-      nav?.style.setProperty("width", `${currentWidth}px`);
-    } else {
-      nav?.classList.remove("scrolling");
-      nav?.style.setProperty("width", "auto");
-    }
-    rafId = null;
-  }
+        event.preventDefault();
+        setMenuOpen(false);
+        target.scrollIntoView({ behavior: "smooth" });
+        window.history.replaceState(null, "", href);
+      });
+    },
+  );
 
-  window.addEventListener("scroll", () => {
-    if (!rafId) rafId = requestAnimationFrame(updateNav);
-  }, { passive: true });
+  const activateNavLink = (sectionId: string) => {
+    activeNavLinks.forEach((link) => {
+      const isActive = link.getAttribute("href") === `#${sectionId}`;
+      link.classList.toggle("active", isActive);
 
-  // Active section highlight
-  document.addEventListener("DOMContentLoaded", () => {
-    const sections = document.querySelectorAll("section[id]");
-    const navLinks = document.querySelectorAll("nav a[href^='#']");
+      if (isActive) {
+        link.setAttribute("aria-current", "location");
+      } else {
+        link.removeAttribute("aria-current");
+      }
+    });
+  };
 
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
+  if ("IntersectionObserver" in window) {
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            navLinks.forEach(link => link.classList.remove("active"));
-            const activeLink = document.querySelector(`nav a[href="#${entry.target.id}"]`);
-            if (activeLink) activeLink.classList.add("active");
+            activateNavLink((entry.target as HTMLElement).id);
           }
         });
       },
-      { threshold: 0.6 }
+      { threshold: 0.6 },
     );
 
-    sections.forEach(section => observer.observe(section));
-  });
+    sections.forEach((section) => sectionObserver.observe(section));
+  } else {
+    activateNavLink("home");
+  }
+
+  updateNav();
+  window.addEventListener("scroll", updateNav, { passive: true });
 </script>
 
 <style>
-  nav {
-    transform: translateX(-50%);
-    transition: background-color 0.3s ease, border-radius 0.3s ease, border-color 0.3s ease, width 0.3s ease;
-  }
-
-  nav.scrolling {
+  .site-header.is-scrolled {
     background-color: var(--background);
     border-color: var(--white-icon-tr);
+    box-shadow: 0 0.75rem 2rem color-mix(in srgb, var(--background) 24%, transparent);
   }
 
-  nav a.active .nav-indicator {
-    transform: translateY(-50%) scale(1);
+  .nav-link::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    content: "";
+    background: var(--sec);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 180ms ease;
+  }
+
+  .nav-link:hover::after,
+  .nav-link.active::after {
+    transform: scaleX(1);
+  }
+
+  .nav-link.active {
+    color: var(--white);
+  }
+
+  .nav-drawer.is-open {
+    visibility: visible;
+    pointer-events: auto;
     opacity: 1;
   }
 
-  nav a.active {
-    font-weight: bold !important;
+  .nav-panel {
+    transform: translateY(-0.5rem);
+    transition: transform 300ms ease;
   }
 
-  @media (max-width: 1024px) {
-    nav ul {
-      overflow-x: auto;
-      gap: 1rem;
-    }
-
-    nav li {
-      flex: 0 0 auto;
-    }
-
-    .scrollbar-hide::-webkit-scrollbar {
-      display: none;
-    }
-
-    .scrollbar-hide {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
+  .nav-drawer.is-open .nav-panel {
+    transform: translateY(0);
   }
 
-  @media (max-width: 767px) {
-    nav {
-      width: 100% !important;
-      border-radius: 1rem 1rem 0 0;
-    }
+  .nav-drawer-link.active {
+    color: var(--white);
+    box-shadow: inset 2px 0 0 var(--sec);
+  }
 
-    body {
-      padding-bottom: 70px;
-    }
-
-    nav a {
-      font-size: 0.75rem;
+  @media (prefers-reduced-motion: reduce) {
+    .site-header,
+    .nav-link::after,
+    .nav-panel {
+      transition: none;
     }
   }
 </style>

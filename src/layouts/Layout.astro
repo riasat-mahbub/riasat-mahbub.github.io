@@ -8,6 +8,7 @@ interface Props {
   image?: string;
   type?: "website" | "article";
   robots?: string;
+  showThemeToggle?: boolean;
 }
 
 const {
@@ -16,6 +17,7 @@ const {
   image = "/og.jpg",
   type = "website",
   robots = "index, follow",
+  showThemeToggle = true,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -69,7 +71,7 @@ const ogImageAlt = `${title} — social card`;
     <title>{title}</title>
   </head>
   <body class="bg-[--background] px-4 transition-colors duration-300 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
-    <ThemeToggle />
+    {showThemeToggle && <ThemeToggle />}
     <slot />
   </body>
 </html>
