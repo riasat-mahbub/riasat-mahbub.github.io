@@ -4,37 +4,49 @@ import { Image } from "astro:assets";
 import riasat from "../../public/new_og.jpg";
 ---
 
-<section class="max-w-5xl min-h-[95vh] mx-auto space-y-8 md:py-36 pb-14 flex flex-col items-center justify-center" id="home">
-  <div class="flex flex-col lg:flex-row items-center justify-center lg:items-start lg:space-x-12 my-auto ">
-    
-    <!-- Text Section -->
-    <div class="flex-1 flex flex-col items-center">
+<section class="w-full max-w-5xl min-h-[95vh] mx-auto px-4 py-16 flex flex-col items-center justify-center md:px-8 md:py-20" id="home">
+  <div class="w-full flex flex-col items-center justify-center gap-8 md:gap-10">
+    <Image
+      src={riasat}
+      alt="Portrait of Riasat Mahbub"
+      width={272}
+      height={272}
+      loading="eager"
+      class="size-36 sm:size-48 md:size-48 rounded-full border-4 border-[var(--white)] object-cover shadow-lg"
+    />
+
+    <div class="w-full max-w-3xl min-w-0 flex flex-col items-center text-center">
       <h1 class="text-5xl md:text-6xl font-semibold text-[var(--white)]">
         <span class="dark:text-red-700 text-red-500">Hi</span>, I'm Riasat
       </h1>
-      <div class="flex flex-col lg:items-start mt-10 md:gap-4 space-y-4">
-      <p class="text-md md:text-xl text-[var(--white-icon)]">
-        I'm a software engineer with a background in full-stack development and software engineering research.
-      </p>
 
-      <p class="text-md md:text-xl text-[var(--white-icon)]">
-        Sometimes that means
-        <span class="flip dark:text-purple-400 text-purple-700 font-medium">
-          <span>
-            <span>building a CV platform with its own editor and document engine</span>
-            <span>designing persistent memory and knowledge graph for coding agents.</span>
-            <span>Retrieving 289,000+ manga for oddly specific recommendations.</span>
-            <span>mining 482 repositories for a research paper.</span>
+      <div class="w-full max-w-2xl mt-8 flex flex-col items-center gap-4">
+        <p class="w-full text-base md:text-xl text-[var(--white-icon)]">
+          I'm a software engineer with a background in full-stack development and software engineering research.
+        </p>
+
+        <p class="w-full text-base md:text-xl text-[var(--white-icon)]">
+          Sometimes that means
+          <span class="sr-only">building a CV platform with its own editor and document engine.</span>
+          <span aria-hidden="true" class="flip dark:text-purple-400 text-purple-700 font-medium">
+            <span>
+              <span>building a CV platform with its own editor and document engine</span>
+              <span>designing persistent memory and knowledge graph for coding agents.</span>
+              <span>retrieving 289,000+ manga for oddly specific recommendations.</span>
+              <span>mining 482 repositories for a research paper.</span>
+            </span>
           </span>
-        </span>
-      </p>
-        
-        <SocialLinks/>
+        </p>
+
+        <div class="w-full flex justify-center">
+          <SocialLinks />
+        </div>
+
         <a
           href="/CV.pdf"
           target="_blank"
           rel="noopener noreferrer"
-          class="mt-4 inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[var(--white-icon-tr)] bg-[#1414149c] text-[var(--white-icon)] hover:text-[var(--white)] hover:bg-[var(--white-icon-tr)] transition duration-300 ease-in-out"
+          class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[var(--white-icon-tr)] bg-[var(--white-icon-tr)] text-[var(--white-icon)] hover:text-[var(--white)] hover:bg-[var(--white-icon-tr)] transition duration-300 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)]"
         >
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5" aria-hidden="true">
             <path d="M12 3a1 1 0 011 1v9.586l2.293-2.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L11 13.586V4a1 1 0 011-1zm-7 14a1 1 0 011 1v1h12v-1a1 1 0 112 0v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2a1 1 0 011-1z"/>
@@ -43,26 +55,16 @@ import riasat from "../../public/new_og.jpg";
         </a>
       </div>
     </div>
-
-    <!-- Image Section -->
-    <!-- <div class="hidden md:flex lg:flex-shrink-0 justify-center mb-6 lg:mb-0">
-      <Image
-        src={riasat}
-        alt="Riasat Mahbub"
-        width={272}
-        height={272}
-        class="rounded-full border-4 border-[var(--white)] object-cover"
-      />
-    </div> -->
-
   </div>
-
 </section>
 
 <style>
   .flip {
+    --flip-height: 4.2em;
+    width: 100%;
+    /* max-width: 100%; */
     display: inline-block;
-    height: 1.4em;
+    height: var(--flip-height);
     overflow: hidden;
     vertical-align: bottom;
   }
@@ -74,15 +76,28 @@ import riasat from "../../public/new_og.jpg";
   }
 
   .flip span span {
-    height: 1.4em;
-    white-space: nowrap;
+    display: block;
+    flex: 0 0 var(--flip-height);
+    height: var(--flip-height);
+    white-space: normal;
+  }
+
+  @media (min-width: 768px) {
+    .flip {
+      --flip-height: 1.4em;
+      width: auto;
+    }
+
+    .flip span span {
+      white-space: nowrap;
+    }
   }
 
   @keyframes flip {
     0%, 20%   { transform: translateY(0); }
-    25%, 45%  { transform: translateY(-1.4em); }
-    50%, 70%  { transform: translateY(-2.8em); }
-    75%, 95%  { transform: translateY(-4.2em); }
+    25%, 45%  { transform: translateY(calc(-1 * var(--flip-height))); }
+    50%, 70%  { transform: translateY(calc(-2 * var(--flip-height))); }
+    75%, 95%  { transform: translateY(calc(-3 * var(--flip-height))); }
     100%       { transform: translateY(0); }
   }
 
