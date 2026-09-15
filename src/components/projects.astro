@@ -23,9 +23,9 @@ const projects: Project[] = [
     summary:
       "A CV builder that makes the path from editing to a finished PDF feel direct.",
     highlights: [
-      "Organizes resume editing in a panel-based schematic editor.",
-      "Offers Modern, Classic, and Minimal templates without changing the content model.",
-      "Shares one HTML renderer between the live preview and PDF export, including links.",
+      "Built a self-hosted full-stack CV platform for reusable career library, application tracking, PDF import/export, and tailored resume generation using Tanstack start, React, FastAPI and Playwright.",
+      "Developed a customizable document engine with drag-and-drop editing, multiple templates, and synchronized live preview and PDF rendering.",
+      "Built a local requirement-analysis pipeline using GLiNER2 to match job requirements against candidate evidence and generate editable, tailored CVs.",
     ],
     tags: ["React", "FastAPI", "PDF Generation", "SQLite", "Resume Builder", "TanStack", "Docker", "Vite", "Playwright"],
   },
@@ -57,7 +57,8 @@ const projects: Project[] = [
     title: "MBuddy",
     slug: "mbuddy",
     link: "https://github.com/riasat-mahbub/MBuddy",
-    mediaType: "placeholder",
+    mediaType: "image",
+    image: "/images/MBuddy.png",
     summary: "A unified media database for unusually specific recommendations.",
     highlights: [
       "Indexes manga, anime, manhwa, games, movies, TV, and novels in one catalog.",
@@ -94,12 +95,12 @@ const projects: Project[] = [
         projects.map((project, index) => (
           <article
             class:list={[
-              "project-row grid gap-8 border-t border-[var(--white-icon-tr)] py-12 md:gap-10 md:py-16 lg:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)] lg:items-center lg:gap-20 lg:py-20",
+              "project-row grid gap-8 border-t border-[var(--white-icon-tr)] py-12 md:gap-10 md:py-16 lg:grid-cols-2 lg:items-center lg:gap-20 lg:py-20",
               index % 2 === 1 && "project-row--reversed",
               index === projects.length - 1 && "border-b",
             ]}
           >
-            <div class="project-media relative aspect-video overflow-hidden rounded-xl border border-[var(--white-icon-tr)] bg-[var(--white-icon-tr)] shadow-lg">
+            <div class="project-media relative aspect-[8/5] overflow-hidden rounded-xl border border-[var(--white-icon-tr)] bg-[var(--white-icon-tr)] shadow-lg">
               <div
                 class="project-media-fallback absolute inset-0 flex flex-col justify-between p-5 md:p-7"
                 aria-hidden="true"
@@ -117,25 +118,36 @@ const projects: Project[] = [
                 </div>
               </div>
 
+              {project.mediaType === "video" && project.poster && (
+                <img
+                  class="project-poster absolute inset-0 z-10 size-full bg-[var(--background)] object-contain transition-opacity duration-500"
+                  data-project-poster
+                  src={project.poster}
+                  alt=""
+                  aria-hidden="true"
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                  fetchpriority={index === 0 ? "high" : "auto"}
+                />
+              )}
+
               {project.mediaType === "video" && (
                 <video
-                  class="project-video absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500"
+                  class="project-video absolute inset-0 z-20 size-full bg-[var(--background)] object-contain opacity-0 transition-opacity duration-500"
                   data-project-video
-                  autoplay
                   muted
                   loop
                   playsinline
-                  controls
-                  preload="metadata"
+                  preload="none"
                   poster={project.poster}
-                  aria-label={`${project.title} project demo`}
+                  aria-hidden="true"
                 >
                   <source
-                    src={`/videos/${project.slug}.webm`}
+                    data-src={`/videos/${project.slug}.webm`}
                     type="video/webm"
                   />
                   <source
-                    src={`/videos/${project.slug}.mp4`}
+                    data-src={`/videos/${project.slug}.mp4`}
                     type="video/mp4"
                   />
                   Your browser does not support embedded videos.
@@ -143,7 +155,7 @@ const projects: Project[] = [
               )}
               {project.mediaType === "image" && project.image && (
                 <img
-                  class="project-image absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500"
+                  class="project-image absolute inset-0 z-20 size-full object-cover opacity-0 transition-opacity duration-500"
                   data-project-image
                   src={project.image}
                   alt={`${project.title} project preview`}
@@ -254,6 +266,9 @@ const projects: Project[] = [
 </section>
 
 <script>
+  const projectPosters = document.querySelectorAll<HTMLImageElement>(
+    "[data-project-poster]",
+  );
   const projectVideos = document.querySelectorAll<HTMLVideoElement>(
     "[data-project-video]",
   );
@@ -264,25 +279,78 @@ const projects: Project[] = [
     "(prefers-reduced-motion: reduce)",
   ).matches;
 
+  const loadProjectVideo = (video: HTMLVideoElement) => {
+    if (video.dataset.videoLoaded === "true") return;
+
+    video.querySelectorAll<HTMLSourceElement>("source[data-src]").forEach(
+      (source) => {
+        source.src = source.dataset.src ?? "";
+      },
+    );
+
+    video.dataset.videoLoaded = "true";
+    video.load();
+  };
+
+  projectPosters.forEach((poster) => {
+    poster.addEventListener(
+      "error",
+      () => poster.classList.add("is-unavailable"),
+      { once: true },
+    );
+  });
+
+  const videoObserver =
+    "IntersectionObserver" in window
+      ? new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const video = entry.target as HTMLVideoElement;
+
+              if (entry.isIntersecting) {
+                loadProjectVideo(video);
+                video.play().catch(() => {});
+              } else {
+                video.pause();
+              }
+            });
+          },
+          { rootMargin: "300px 0px", threshold: 0.01 },
+        )
+      : null;
+
   projectVideos.forEach((video) => {
+    const poster = video.parentElement?.querySelector<HTMLImageElement>(
+      "[data-project-poster]",
+    );
+
     video.addEventListener(
-      "loadeddata",
-      () => video.classList.add("is-ready"),
+      "canplay",
+      () => {
+        video.classList.add("is-ready");
+        poster?.classList.add("is-video-ready");
+      },
       { once: true },
     );
     video.addEventListener(
       "error",
-      () => video.classList.add("is-unavailable"),
+      () => {
+        video.classList.add("is-unavailable");
+        poster?.classList.remove("is-video-ready");
+      },
       { once: true },
     );
 
     if (prefersReducedMotion) {
       video.pause();
-      video.removeAttribute("autoplay");
+      return;
     }
 
-    if (video.readyState >= 2) {
-      video.classList.add("is-ready");
+    if (videoObserver) {
+      videoObserver.observe(video);
+    } else {
+      loadProjectVideo(video);
+      video.play().catch(() => {});
     }
   });
 
@@ -303,6 +371,10 @@ const projects: Project[] = [
 </script>
 
 <style>
+  .project-media {
+    isolation: isolate;
+  }
+
   .project-row--reversed .project-media {
     order: 2;
   }
@@ -317,18 +389,18 @@ const projects: Project[] = [
       var(--background);
   }
 
-  .project-video.is-ready {
-    opacity: 1;
+  .project-poster.is-video-ready {
+    opacity: 0;
+    pointer-events: none;
   }
 
+  .project-video.is-ready,
   .project-image.is-ready {
     opacity: 1;
   }
 
-  .project-video.is-unavailable {
-    display: none;
-  }
-
+  .project-poster.is-unavailable,
+  .project-video.is-unavailable,
   .project-image.is-unavailable {
     display: none;
   }
