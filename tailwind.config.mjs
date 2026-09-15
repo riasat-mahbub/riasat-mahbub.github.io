@@ -4,6 +4,9 @@ export default {
   darkMode: ["class", '[data-theme="dark"]'],
   theme: {
     extend: {
+      maxWidth: {
+        site: "100rem",
+      },
       keyframes: {
         scaleAnim: {
           "0%": { transform: "scale(1)" },

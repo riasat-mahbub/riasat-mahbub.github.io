@@ -11,7 +11,7 @@ const sortedTags = Array.from(getAllTags(posts).entries()).sort((a, b) => b[1] -
 <BlogLayout title="Tags - Blog" description="Browse blog posts by tag" pageType="website">
   <BlogNav currentPath={Astro.url.pathname} />
   <main class="min-h-screen bg-[var(--background)] text-[var(--white)] pt-20">
-    <div class="max-w-5xl mx-auto px-6 py-12">
+    <div class="mx-auto max-w-site px-6 py-12">
       <h1 class="text-4xl md:text-5xl font-medium text-[var(--white)] mb-2">Tags</h1>
       <p class="text-lg text-[var(--white-icon)] mb-12">Browse posts by topic</p>
 

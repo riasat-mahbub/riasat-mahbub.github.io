@@ -71,7 +71,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <ThemeToggle />
     <slot />
     <footer class="border-t border-[var(--white-icon-tr)] mt-16 py-8 text-center text-sm text-[var(--white-icon)]">
-      <div class="max-w-5xl mx-auto px-6">
+      <div class="mx-auto max-w-site px-6">
         <p class="mb-2">&copy; {new Date().getFullYear()} Riasat Mahbub. All rights reserved.</p>
         <div class="flex justify-center gap-4">
           <a href="/" class="hover:text-[var(--white)] transition-colors">Home</a>
