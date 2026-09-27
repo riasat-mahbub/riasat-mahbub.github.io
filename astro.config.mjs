@@ -34,7 +34,7 @@ export default defineConfig({
   // Short CV links, emitted as static redirect pages for GitHub Pages.
   redirects: {
     "/github": "https://github.com/riasat-mahbub",
-    "/linkedin": "https://www.linkedin.com/in/riasat-m-70682b115/",
+    "/linkedin": "https://www.linkedin.com/in/riasat-mahbub/",
     "/x": "https://x.com/RiasatM1740",
     "/twitter": "https://x.com/RiasatM1740",
     "/aergia": "https://github.com/riasat-mahbub/aergia-new",
