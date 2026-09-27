@@ -39,6 +39,8 @@ export default defineConfig({
     "/twitter": "https://x.com/RiasatM1740",
     "/aergia": "https://github.com/riasat-mahbub/aergia-new",
     "/project-tracker": "https://github.com/riasat-mahbub/project-tracker-unified",
+    "/tracker-skill": "https://github.com/riasat-mahbub/project-tracker-skill",
+    "/portfolio": "https://github.com/riasat-mahbub/riasat-mahbub.github.io",
     "/mbuddy": "https://github.com/riasat-mahbub/MBuddy",
   },
   build: {
