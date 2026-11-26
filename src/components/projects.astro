@@ -7,7 +7,6 @@ interface Project {
   link: string;
   mediaType: MediaType;
   image?: string;
-  animatedImage?: string;
   poster?: string;
   summary: string;
   highlights: string[];
@@ -34,15 +33,13 @@ const projects: Project[] = [
     title: "Tandnevis",
     slug: "tandnevis",
     link: "https://github.com/riasat-mahbub/tandnevis",
-    mediaType: "image",
-    image: "/images/tandnevis.webp",
-    animatedImage: "/images/tandnevis-feature-tour.gif",
+    mediaType: "video",
     summary:
-      "A local-first desktop writing app for outlining stories, drafting scenes, and compiling manuscripts.",
+      "A local-first desktop writing studio for outlining chapters, breaking scenes into beats, and drafting prose in one workspace.",
     highlights: [
-      "Organize chapters, scenes, and ordered beats, then write prose in the same workspace.",
-      "Reuse characters, tones, and emotions across scenes and map how relationships change through the story.",
-      "Export manuscripts as Markdown, plain text, or HTML. Portable builds run on Windows and Linux.",
+      "Build your cast from 58 stock character templates across 7 categories, guide scenes with 24 emotion blocks and 18 tone blocks, and map relationships before and after each scene.",
+      "Use ChatGPT to generate a scene outline from a summary. Review the proposed beats, edit them in your scene, then generate and review prose based on the summary and beats.",
+      "Export a scene, chapter, or full manuscript in 3 formats (Markdown, plain text, and HTML). Portable builds run on Windows and Linux.",
     ],
     tags: ["Tauri", "Rust", "React", "TypeScript", "SQLite"],
   },
@@ -117,23 +114,50 @@ const projects: Project[] = [
               index === projects.length - 1 && "border-b",
             ]}
           >
-            <div class="project-media relative aspect-[8/5] overflow-hidden rounded-xl border border-[var(--white-icon-tr)] bg-[var(--white-icon-tr)] shadow-lg">
-              <div
-                class="project-media-fallback absolute inset-0 flex flex-col justify-between p-5 md:p-7"
-                aria-hidden="true"
-              >
-                <span class="text-sm font-semibold tracking-[0.2em] text-[var(--sec)]">
-                  0{index + 1}
-                </span>
-                <div>
-                  <p class="text-2xl font-semibold tracking-tight md:text-3xl">
+            <div
+              class:list={[
+                "project-media relative overflow-hidden rounded-xl border border-[var(--white-icon-tr)] bg-[var(--white-icon-tr)] shadow-lg",
+                project.slug === "tandnevis" ? "aspect-[3/2]" : "aspect-[8/5]",
+              ]}
+            >
+              {project.slug === "tandnevis" ? (
+                <div
+                  class="tandnevis-poster absolute inset-0 grid place-content-center justify-items-center gap-3 md:gap-4"
+                  aria-hidden="true"
+                >
+                  <svg
+                    class="size-12 md:size-16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.4"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M12.7 19H5v-7.7a2 2 0 0 1 .6-1.4l6.2-6.2a6 6 0 0 1 8.5 8.5l-6.2 6.2a2 2 0 0 1-1.4.6ZM16 8 2 22m7-7h9" />
+                  </svg>
+                  <p class="text-3xl font-semibold tracking-tight md:text-4xl">
                     {project.title}
                   </p>
-                  <p class="mt-2 text-sm text-[var(--white-icon)]">
-                    Project demo
-                  </p>
                 </div>
-              </div>
+              ) : (
+                <div
+                  class="project-media-fallback absolute inset-0 flex flex-col justify-between p-5 md:p-7"
+                  aria-hidden="true"
+                >
+                  <span class="text-sm font-semibold tracking-[0.2em] text-[var(--sec)]">
+                    0{index + 1}
+                  </span>
+                  <div>
+                    <p class="text-2xl font-semibold tracking-tight md:text-3xl">
+                      {project.title}
+                    </p>
+                    <p class="mt-2 text-sm text-[var(--white-icon)]">
+                      Project demo
+                    </p>
+                  </div>
+                </div>
+              )}
 
               {project.mediaType === "video" && project.poster && (
                 <img
@@ -150,7 +174,10 @@ const projects: Project[] = [
 
               {project.mediaType === "video" && (
                 <video
-                  class="project-video absolute inset-0 z-20 size-full bg-[var(--background)] object-contain opacity-0 transition-opacity duration-500"
+                  class:list={[
+                    "project-video absolute inset-0 z-20 size-full bg-[var(--background)] object-contain opacity-0 transition-opacity duration-500",
+                    project.slug === "tandnevis" && "tandnevis-video",
+                  ]}
                   data-project-video
                   muted
                   loop
@@ -171,29 +198,14 @@ const projects: Project[] = [
                 </video>
               )}
               {project.mediaType === "image" && project.image && (
-                <picture
-                  class="absolute inset-0 z-20"
-                  class:list={[project.animatedImage && "project-animated-preview"]}
-                >
-                  {project.animatedImage && (
-                    <source
-                      media="(prefers-reduced-motion: no-preference)"
-                      srcset={project.animatedImage}
-                      type="image/gif"
-                    />
-                  )}
-                  <img
-                    class:list={[
-                      "project-image absolute inset-0 size-full opacity-0 transition-opacity duration-500 motion-reduce:transition-none",
-                      project.animatedImage ? "bg-[var(--background)] object-contain" : "object-cover",
-                    ]}
-                    data-project-image
-                    src={project.image}
-                    alt={`${project.title} project preview`}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </picture>
+                <img
+                  class="project-image absolute inset-0 z-20 size-full object-cover opacity-0 transition-opacity duration-500 motion-reduce:transition-none"
+                  data-project-image
+                  src={project.image}
+                  alt={`${project.title} project preview`}
+                  loading="lazy"
+                  decoding="async"
+                />
               )}
             </div>
 
@@ -330,6 +342,10 @@ const projects: Project[] = [
       () => poster.classList.add("is-unavailable"),
       { once: true },
     );
+
+    if (poster.complete && poster.naturalWidth === 0) {
+      poster.classList.add("is-unavailable");
+    }
   });
 
   const videoObserver =
@@ -339,7 +355,7 @@ const projects: Project[] = [
             entries.forEach((entry) => {
               const video = entry.target as HTMLVideoElement;
 
-              if (entry.isIntersecting) {
+              if (entry.intersectionRatio >= 0.25) {
                 loadProjectVideo(video);
                 video.play().catch(() => {});
               } else {
@@ -347,7 +363,7 @@ const projects: Project[] = [
               }
             });
           },
-          { rootMargin: "300px 0px", threshold: 0.01 },
+          { threshold: 0.25 },
         )
       : null;
 
@@ -357,7 +373,7 @@ const projects: Project[] = [
     );
 
     video.addEventListener(
-      "canplay",
+      "playing",
       () => {
         video.classList.add("is-ready");
         poster?.classList.add("is-video-ready");
@@ -407,10 +423,6 @@ const projects: Project[] = [
     isolation: isolate;
   }
 
-  .project-animated-preview {
-    content-visibility: auto;
-  }
-
   .project-row--reversed .project-media {
     order: 2;
   }
@@ -423,6 +435,19 @@ const projects: Project[] = [
     background:
       radial-gradient(circle at 90% 10%, var(--white-icon-tr), transparent 42%),
       var(--background);
+  }
+
+  .tandnevis-poster {
+    --poster-white: white;
+    --poster-peach: rgb(255 220 184);
+    --poster-ink: rgb(104 49 22);
+
+    background: linear-gradient(145deg, var(--poster-white) 12%, var(--poster-peach));
+    color: var(--poster-ink);
+  }
+
+  .tandnevis-video.is-ready {
+    transition-delay: 800ms;
   }
 
   .project-poster.is-video-ready {
