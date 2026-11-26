@@ -7,6 +7,7 @@ interface Project {
   link: string;
   mediaType: MediaType;
   image?: string;
+  animatedImage?: string;
   poster?: string;
   summary: string;
   highlights: string[];
@@ -35,6 +36,7 @@ const projects: Project[] = [
     link: "https://github.com/riasat-mahbub/tandnevis",
     mediaType: "image",
     image: "/images/tandnevis.webp",
+    animatedImage: "/images/tandnevis-feature-tour.gif",
     summary:
       "A local-first desktop writing app for outlining stories, drafting scenes, and compiling manuscripts.",
     highlights: [
@@ -169,14 +171,29 @@ const projects: Project[] = [
                 </video>
               )}
               {project.mediaType === "image" && project.image && (
-                <img
-                  class="project-image absolute inset-0 z-20 size-full object-cover opacity-0 transition-opacity duration-500"
-                  data-project-image
-                  src={project.image}
-                  alt={`${project.title} project preview`}
-                  loading="lazy"
-                  decoding="async"
-                />
+                <picture
+                  class="absolute inset-0 z-20"
+                  class:list={[project.animatedImage && "project-animated-preview"]}
+                >
+                  {project.animatedImage && (
+                    <source
+                      media="(prefers-reduced-motion: no-preference)"
+                      srcset={project.animatedImage}
+                      type="image/gif"
+                    />
+                  )}
+                  <img
+                    class:list={[
+                      "project-image absolute inset-0 size-full opacity-0 transition-opacity duration-500 motion-reduce:transition-none",
+                      project.animatedImage ? "bg-[var(--background)] object-contain" : "object-cover",
+                    ]}
+                    data-project-image
+                    src={project.image}
+                    alt={`${project.title} project preview`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
               )}
             </div>
 
@@ -388,6 +405,10 @@ const projects: Project[] = [
 <style>
   .project-media {
     isolation: isolate;
+  }
+
+  .project-animated-preview {
+    content-visibility: auto;
   }
 
   .project-row--reversed .project-media {
