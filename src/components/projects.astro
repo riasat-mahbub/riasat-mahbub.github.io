@@ -5,6 +5,7 @@ interface Project {
   title: string;
   slug: string;
   link: string;
+  releases?: string;
   mediaType: MediaType;
   image?: string;
   poster?: string;
@@ -33,6 +34,7 @@ const projects: Project[] = [
     title: "Tandnevis",
     slug: "tandnevis",
     link: "https://github.com/riasat-mahbub/tandnevis",
+    releases: "https://github.com/riasat-mahbub/tandnevis/releases",
     mediaType: "video",
     summary:
       "A local-first desktop writing studio for outlining chapters, breaking scenes into beats, and drafting prose in one workspace.",
@@ -254,28 +256,40 @@ const projects: Project[] = [
                 ))}
               </div>
 
-              <a
-                href={project.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="group mt-8 inline-flex items-center gap-2 text-sm font-semibold text-[var(--white)] transition-colors duration-300 hover:text-[var(--sec)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)]"
-              >
-                View on GitHub
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="size-4 transition-transform duration-300 group-hover:translate-x-0.5"
-                  aria-hidden="true"
+              <div class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+                {project.releases && (
+                  <a
+                    href={project.releases}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex min-h-11 items-center rounded-md bg-[var(--sec)] px-4 text-sm font-semibold text-[var(--background)] transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]"
+                  >
+                    Download {project.title}
+                  </a>
+                )}
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group inline-flex items-center gap-2 text-sm font-semibold text-[var(--white)] transition-colors duration-300 hover:text-[var(--sec)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--sec)]"
                 >
-                  <path d="M5 12h13" />
-                  <path d="m13 6 6 6-6 6" />
-                </svg>
-              </a>
+                  View on GitHub
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="size-4 transition-transform duration-300 group-hover:translate-x-0.5"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 12h13" />
+                    <path d="m13 6 6 6-6 6" />
+                  </svg>
+                </a>
+              </div>
             </div>
           </article>
         ))
